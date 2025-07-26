@@ -104,9 +104,13 @@
                                 <td class="px-6 py-4">
                                     {{ $row->updated_at }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 flex flex-col">
                                     <a href="{{ route('edit', $row->id) }}" class="underline">Редактировать</a>
-                                    <a href="{{ route('delete', $row->id) }}" class="underline">Удалить</a>
+                                    <form action="{{ route('delete', $row->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="underline text-red-600 hover:text-red-800 cursor-pointer">Удалить</button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
