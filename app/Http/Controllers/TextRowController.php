@@ -36,6 +36,8 @@ class TextRowController extends Controller
         return view('edit', ['row' => $textRow]);
     }
 
+
+    // TODO Create update method in Repository
     public function updateStatus(TextRow $textRow, Request $request): JsonResponse
     {
         $validated = $request->validate([
