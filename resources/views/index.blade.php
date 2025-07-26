@@ -68,6 +68,9 @@
                             <th scope="col" class="px-6 py-3">
                                 Updated At
                             </th>
+                            <th scope="col" class="px-6 py-3">
+                                Actions
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -100,6 +103,10 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ $row->updated_at }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    <a href="{{ route('edit', $row->id) }}" class="underline">Редактировать</a>
+                                    <a href="{{ route('delete', $row->id) }}" class="underline">Удалить</a>
                                 </td>
                             </tr>
                         @endforeach

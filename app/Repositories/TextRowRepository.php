@@ -12,6 +12,11 @@ class TextRowRepository
         return TextRow::all();
     }
 
+    public function delete(TextRow $textRow): void
+    {
+        $textRow->delete();
+    }
+
     public function deleteAll(): void
     {
         TextRow::query()->delete();

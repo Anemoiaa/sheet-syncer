@@ -23,26 +23,89 @@ class TextRowController extends Controller
         try {
             $data = $this->repository->getAll();
 
-            return view('welcome', [
+            return view('index', [
                 'textRows' => $data,
             ]);
         } catch (Exception $e) {
             Log::error('Error while getting rows' . $e->getMessage(), [$e->getTraceAsString()]);
 
-            return view('welcome', []);
+            return view('index', []);
         }
     }
 
-    public function update(TextRow $textRow, Request $request): JsonResponse
+    public function edit(TextRow $textRow): View
+    {
+        return view('edit', ['row' => $textRow]);
+    }
+
+    public function updateStatus(TextRow $textRow, Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'status' => ['required', 'in:' . implode(',', array_column(RowStatusEnum::cases(), 'value'))],
+            TextRow::ATTRIBUTE_STATUS => ['required', 'in:' . implode(',', array_column(RowStatusEnum::cases(), 'value'))],
         ]);
 
-        $textRow->status = $validated['status'];
-        $textRow->save();
+        try {
+            $textRow->status = $validated[TextRow::ATTRIBUTE_STATUS];
+            $textRow->save();
 
-        return response()->json(['success' => true]);
+            return response()->json(['success' => true]);
+        } catch (Exception $e) {
+            Log::error('Error while updating (status) model', [
+                'message' => $e->getMessage(),
+                'trace'   => $e->getTraceAsString(),
+                'row_id'  => $textRow->id,
+            ]);
+
+            return response()->json(['success' => false], 500);
+        }
+    }
+
+    public function update(TextRow $textRow, Request $request): JsonResponse|RedirectResponse
+    {
+        $validated = $request->validate([
+            TextRow::ATTRIBUTE_TEXT   => 'required|string|min:1|max:1024',
+            TextRow::ATTRIBUTE_STATUS => ['required', 'in:' . implode(',', array_column(RowStatusEnum::cases(), 'value'))],
+        ]);
+
+        try {
+            $textRow->fill($validated)->save();
+
+            return redirect()->back()->with('success', 'Запись обновлена');
+        } catch (Exception $e) {
+            Log::error('Error while updating model', [
+                'message' => $e->getMessage(),
+                'trace'   => $e->getTraceAsString(),
+                'row_id'  => $textRow->id,
+            ]);
+
+            return redirect()->back()->with('error', 'Не удалось обновить запись');
+        }
+    }
+
+    public function delete(TextRow $textRow): RedirectResponse
+    {
+        try {
+            $this->repository->delete($textRow);
+
+            return redirect()->back()->with('success', 'Запись была удалена.');
+        } catch (Exception $e) {
+            Log::error('Error while deleting row' . $e->getMessage(), [$e->getTraceAsString()]);
+
+            return redirect()->back()->with('error', 'Не удалось удалить запись. Попробуйте ещё раз.');
+        }
+    }
+
+    public function deleteAll(): RedirectResponse
+    {
+        try {
+            $this->repository->deleteAll();
+
+            return redirect()->back()->with('success', 'Все записи были удалены.');
+        } catch (Exception $e) {
+            Log::error('Error while deleting rows' . $e->getMessage(), [$e->getTraceAsString()]);
+
+            return redirect()->back()->with('error', 'Не удалось удалить записи. Попробуйте ещё раз.');
+        }
     }
 
     public function generate(Request $request): RedirectResponse
@@ -57,19 +120,6 @@ class TextRowController extends Controller
             Log::error('Error while generating rows' . $e->getMessage(), [$e->getTraceAsString()]);
 
             return redirect()->back()->with('error', 'Не удалось сгенерировать строки. Попробуйте ещё раз.');
-        }
-    }
-
-    public function deleteAll(): RedirectResponse
-    {
-        try {
-            $this->repository->deleteAll();
-
-            return redirect()->back()->with('success', 'Все записи были удалены.');
-        } catch (Exception $e) {
-            Log::error('Error while deleting rows' . $e->getMessage(), [$e->getTraceAsString()]);
-
-            return redirect()->back()->with('error', 'Не удалось удалить записи. Попробуйте ещё раз.');
         }
     }
 }

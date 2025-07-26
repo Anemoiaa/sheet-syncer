@@ -8,7 +8,7 @@ function initStatusUpdater() {
             const newStatus = e.target.value;
 
             try {
-                const response = await fetch(`/update/${id}`, {
+                const response = await fetch(`/api/update-status/${id}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -17,12 +17,7 @@ function initStatusUpdater() {
                     body: JSON.stringify({ status: newStatus })
                 });
 
-                if (!response.ok) {
-                    alert('Не удалось обновить статус');
-                }
-
                 alert('Статус успешно обновлен')
-
             } catch (error) {
                 alert('Не удалось обновить статус');
             }
