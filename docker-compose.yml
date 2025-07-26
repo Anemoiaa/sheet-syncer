@@ -21,13 +21,19 @@ services:
         depends_on:
             - app
 
-#    node:
-#        image: node:20
-#        container_name: sheet-node
-#        working_dir: /var/www
-#        volumes:
-#            - ./:/var/www
-#        entrypoint: ['npm']
+    node:
+        image: node:20-slim
+        container_name: sheet-node
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        command: ["sh", "-c", "npm ci && npm run dev -- --host"]
+        ports:
+            - "5173:5173"
+        depends_on:
+            - app
+        profiles:
+            - dev
 
     postgres:
         image: postgres:15
