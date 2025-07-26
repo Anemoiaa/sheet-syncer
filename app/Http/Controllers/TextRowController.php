@@ -10,7 +10,7 @@ class TextRowController extends Controller
     public function index(): View
     {
         return view('welcome', [
-            'textRows' => TextRow::all()
+            'textRows' => TextRow::all(),
         ]);
     }
 }
