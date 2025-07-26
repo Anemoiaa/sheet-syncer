@@ -21,10 +21,8 @@ class TextRowController extends Controller
     public function index(): View
     {
         try {
-            $data = $this->repository->getAll();
-
             return view('index', [
-                'textRows' => $data,
+                'textRows' => $this->repository->getAll()
             ]);
         } catch (Exception $e) {
             Log::error('Error while getting rows' . $e->getMessage(), [$e->getTraceAsString()]);
