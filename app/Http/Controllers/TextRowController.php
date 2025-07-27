@@ -22,7 +22,7 @@ class TextRowController extends Controller
     {
         try {
             return view('index', [
-                'textRows' => $this->repository->getAll()
+                'textRows' => $this->repository->getAll(),
             ]);
         } catch (Exception $e) {
             Log::error('Error while getting rows' . $e->getMessage(), [$e->getTraceAsString()]);
@@ -35,7 +35,6 @@ class TextRowController extends Controller
     {
         return view('edit', ['row' => $textRow]);
     }
-
 
     // TODO Create update method in Repository
     public function updateStatus(TextRow $textRow, Request $request): JsonResponse

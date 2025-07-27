@@ -3,10 +3,16 @@
 namespace App\Repositories;
 
 use App\Models\TextRow;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 
 class TextRowRepository
 {
+    public function allowed(): Builder
+    {
+        return TextRow::allowed();
+    }
+
     public function getAll(): Collection
     {
         return TextRow::all();

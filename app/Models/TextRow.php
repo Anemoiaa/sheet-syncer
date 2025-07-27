@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\RowStatusEnum;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,7 +25,7 @@ class TextRow extends Model
         'status' => RowStatusEnum::class,
     ];
 
-    public function scopeAllowed($query)
+    public function scopeAllowed($query): Builder
     {
         return $query->where('status', RowStatusEnum::Allowed->value);
     }
