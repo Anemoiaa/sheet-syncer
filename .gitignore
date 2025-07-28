@@ -19,4 +19,4 @@ yarn-error.log
 /.vscode
 /vendor-bin/**/vendor
 .php-cs-fixer.cache
-./credentials.json
+/credentials.json
