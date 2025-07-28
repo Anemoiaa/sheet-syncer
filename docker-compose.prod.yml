@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: .docker/php/Dockerfile
-    image: myapp-fpm:latest
+    image: sheet/app/myapp-fpm:latest
     container_name: myapp-php
     restart: always
     working_dir: /var/www
