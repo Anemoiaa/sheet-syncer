@@ -5,7 +5,7 @@
     @include('partials.alerts')
 
     <div class="container mt-10">
-        <div class="flex flex-col md:flex-row gap-6 bg-gray-50 p-6 rounded-2xl shadow-sm">
+        <div class="flex flex-col items-end md:flex-row gap-6 bg-gray-50 p-6 rounded-2xl shadow-sm">
             <form action="{{ route('generate') }}" method="POST" class="flex flex-col gap-2 flex-1">
                 @csrf
                 <label for="generate-rows" class="text-gray-700 font-semibold">Сгенерировать новые строки</label>
@@ -19,7 +19,6 @@
                     Сгенерировать
                 </button>
             </form>
-
             <form action="#" class="flex flex-col gap-2 flex-1">
                 @csrf
                 <label for="sheet-id" class="text-gray-700 font-semibold">Ссылка на таблицу</label>
@@ -28,14 +27,18 @@
                     Сохранить
                 </button>
             </form>
-
-            <form action="{{ route('delete-all') }}" method="POST" class="flex flex-col justify-end flex-1">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-800 transition cursor-pointer">
-                    Удалить все
-                </button>
-            </form>
+            <div>
+                <a href="{{ route('create') }}" class="block mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition text-center cursor-pointer">
+                    Создать
+                </a>
+                <form action="{{ route('delete-all') }}" method="POST" class="mt-4 flex flex-col justify-end flex-1">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-800 transition cursor-pointer">
+                        Удалить все
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 
