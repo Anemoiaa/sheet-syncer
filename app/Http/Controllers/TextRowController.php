@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
-
 class TextRowController extends Controller
 {
     public function __construct(private readonly TextRowRepository $repository)
