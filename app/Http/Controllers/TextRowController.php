@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\RowStatusEnum;
+use App\Models\SheetConfig;
 use App\Models\TextRow;
 use App\Repositories\TextRowRepository;
 use Exception;
@@ -10,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Validator;
 use Illuminate\View\View;
 
 class TextRowController extends Controller
@@ -23,6 +25,7 @@ class TextRowController extends Controller
         try {
             return view('index', [
                 'textRows' => $this->repository->getAll(),
+                'sheet'    => SheetConfig::first(),
             ]);
         } catch (Exception $e) {
             Log::error('Error while getting rows' . $e->getMessage(), [$e->getTraceAsString()]);

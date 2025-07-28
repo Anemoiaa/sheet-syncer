@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SheetConfigController;
 use App\Http\Controllers\TextRowController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,5 @@ Route::patch('/update/{textRow}', [TextRowController::class, 'update'])->name('u
 Route::delete('/delete/{textRow}', [TextRowController::class, 'delete'])->name('delete');
 Route::delete('/delete-all', [TextRowController::class, 'deleteAll'])->name('delete-all');
 Route::post('/generate', [TextRowController::class, 'generate'])->name('generate');
+
+Route::patch('/sheet-config/update', [SheetConfigController::class, 'update'])->name('sheet-config.update');

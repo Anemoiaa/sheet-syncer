@@ -19,10 +19,18 @@
                     Сгенерировать
                 </button>
             </form>
-            <form action="#" class="flex flex-col gap-2 flex-1">
+            <form action="{{ route('sheet-config.update') }}" method="POST" class="flex flex-col gap-2 flex-1">
                 @csrf
+                @method('PATCH')
                 <label for="sheet-id" class="text-gray-700 font-semibold">Ссылка на таблицу</label>
-                <input id="sheet-id" type="text" class="px-4 py-2 border rounded bg-white shadow-sm" placeholder="https://docs.google.com/..." />
+                <input id="sheet-id" type="text" name="url"
+                       class="px-4 py-2 border rounded bg-white shadow-sm @error('url') border-red-500 @enderror"
+                       placeholder="https://docs.google.com/..."
+                       value="{{ old('url', $sheet->url) }}"
+                />
+                @error('url')
+                <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
+                @enderror
                 <button type="submit" class="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition cursor-pointer">
                     Сохранить
                 </button>
