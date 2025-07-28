@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\TextRow;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 class TextRowRepository

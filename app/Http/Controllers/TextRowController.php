@@ -31,6 +31,29 @@ class TextRowController extends Controller
         }
     }
 
+    public function create(): View
+    {
+        return view('create');
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'text'   => 'required|string|min:1|max:1024',
+            'status' => 'in:' . implode(',', array_column(RowStatusEnum::cases(), 'value')),
+        ]);
+
+        try {
+            TextRow::create($validated);
+        } catch (Exception $e) {
+            Log::error('Error while saving row' . $e->getMessage(), [$e->getTraceAsString()]);
+
+            return redirect()->back()->with('error', 'Что-то пошло не так. Попробуйте ещё раз.');
+        }
+
+        return redirect()->route('home')->with('success', 'Запись была создана');
+    }
+
     public function edit(TextRow $textRow): View
     {
         return view('edit', ['row' => $textRow]);
