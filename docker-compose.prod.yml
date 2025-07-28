@@ -38,15 +38,5 @@ services:
       - pgdata:/var/lib/postgresql/data
     restart: always
 
-  front-builder:
-    image: myapp-nodejs:latest
-    build:
-      dockerfile: ./.docker/nodejs/Dockerfile
-      context: .
-    command:
-      [ "npm", "run", "build" ]
-    volumes:
-      - ./:/var/www/
-
 volumes:
   pgdata:
