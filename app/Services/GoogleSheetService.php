@@ -56,6 +56,35 @@ class GoogleSheetService implements ExternalTableServiceInterface
      * @return SheetRowDto[]
      * @throws \Google\Service\Exception
      */
+    public function getRows(int $count): array
+    {
+        $batchSize = min($count, 1000);
+        $allRows = [];
+        $startRow = 2;
+
+        while (count($allRows) < $count) {
+            $rows = $this->fetchBatch($startRow, $batchSize);
+
+            if (empty($rows)) {
+                break;
+            }
+
+            $allRows = array_merge($allRows, $rows);
+
+            if (count($allRows) >= $count || count($rows) < $batchSize) {
+                break;
+            }
+
+            $startRow += $batchSize;
+        }
+
+        return array_slice($allRows, 0, $count);
+    }
+
+    /**
+     * @return SheetRowDto[]
+     * @throws \Google\Service\Exception
+     */
     public function getAllRows(): array
     {
         $batchSize = 5000;
