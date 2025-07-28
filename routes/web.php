@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [TextRowController::class, 'index'])->name('home');
+Route::get('/create', [TextRowController::class, 'create'])->name('create');
+Route::post('/store', [TextRowController::class, 'store'])->name('store');
 Route::get('/edit/{textRow}', [TextRowController::class, 'edit'])->name('edit');
 Route::patch('/update/{textRow}', [TextRowController::class, 'update'])->name('update');
 Route::delete('/delete/{textRow}', [TextRowController::class, 'delete'])->name('delete');
