@@ -39,13 +39,21 @@ USER www:www
 
 COPY --link --chown=www:www composer.json composer.lock ./
 
-RUN set -ex; \
+RUN <<-EOT bash
+  set -ex; \
   composer install \
-    --no-autoloader \
-    --no-cache \
     --no-dev \
     --no-interaction \
+    --prefer-dist \
+    --optimize-autoloader \
     --no-progress \
     --no-scripts
+EOT
 
 COPY --link --chown=www:www . .
+
+RUN <<-EOT bash
+  set -ex; \
+  php artisan optimize
+EOT
+

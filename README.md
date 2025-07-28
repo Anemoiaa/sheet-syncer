@@ -42,7 +42,17 @@ cp .env.example .env
 3. **Соберите и запустите контейнеры**
 
 ```bash
-docker compose --profile dev up --build
+docker compose build
+docker compose --profile dev up -d
+docker compose exec app composer install
+```
+
+---
+
+4. **Миграции и сидинг**
+
+```bash
+docker compose exec app php artisan migrate --seed
 ```
 
 ---
