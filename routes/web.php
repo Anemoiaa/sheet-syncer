@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\SheetConfigController;
+use App\Http\Controllers\FetchController;
 use App\Http\Controllers\TextRowController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,4 +24,6 @@ Route::delete('/delete/{textRow}', [TextRowController::class, 'delete'])->name('
 Route::delete('/delete-all', [TextRowController::class, 'deleteAll'])->name('delete-all');
 Route::post('/generate', [TextRowController::class, 'generate'])->name('generate');
 
-Route::patch('/sheet-config/update', [SheetConfigController::class, 'update'])->name('sheet-config.update');
+Route::patch('/sheet-config/update', [FetchController::class, 'update'])->name('sheet-config.update');
+
+Route::get('/fetch/{count}', [FetchController::class, '__invoke']);
