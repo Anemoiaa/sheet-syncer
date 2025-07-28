@@ -28,6 +28,7 @@ class SheetConfigController extends Controller
         try {
             $config = SheetConfig::firstOrFail();
             $config->spreadsheet_id = $spreadsheetId;
+            $config->url = $validated['url'];
             $config->save();
 
             return redirect()->back()->with('success', 'Настройки успешно сохранены.');
