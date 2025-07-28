@@ -62,12 +62,19 @@ class TextRowController extends Controller
     // TODO Create update method in Repository
     public function updateStatus(TextRow $textRow, Request $request): JsonResponse
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             TextRow::ATTRIBUTE_STATUS => ['required', 'in:' . implode(',', array_column(RowStatusEnum::cases(), 'value'))],
         ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors'  => $validator->errors(),
+            ], 422);
+        }
+
         try {
-            $textRow->status = $validated[TextRow::ATTRIBUTE_STATUS];
+            $textRow->status = $request->input(TextRow::ATTRIBUTE_STATUS);
             $textRow->save();
 
             return response()->json(['success' => true]);
