@@ -5,7 +5,7 @@ namespace App\Services;
 use App\DTO\SheetRowDto;
 use App\Helpers\SpreadsheetHelper;
 use App\Mappers\SheetRowMapper;
-use App\Models\SheetConfig;
+use App\Models\BaseSheetConfig;
 use App\Models\TextRow;
 use Google\Client;
 use Google\Exception;
@@ -42,14 +42,18 @@ class GoogleSheetService implements ExternalTableServiceInterface
         $client->setAuthConfig(base_path(self::CREDENTIALS_PATH));
 
         $this->service = new Sheets($client);
+    }
 
-        $config = SheetConfig::first();
+    public function setUp(BaseSheetConfig $config): static
+    {
         $this->spreadsheetId = $config->spreadsheet_id;
         $this->sheetName = $config->sheet_name;
         $this->sheetId = $this->getSheetId();
 
         $columnsCount = count(Schema::getColumnListing(TextRow::TABLE));
         $this->lastColumnLetter = SpreadsheetHelper::numberToColumnLetter($columnsCount + 1);
+
+        return $this;
     }
 
     /**

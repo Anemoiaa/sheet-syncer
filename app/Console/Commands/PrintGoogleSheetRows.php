@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\SheetConfig;
 use App\Services\GoogleSheetService;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Command\Command as CommandAlias;
@@ -11,16 +12,11 @@ class PrintGoogleSheetRows extends Command
 {
     protected $signature = 'google-sheet:print {--count=10 : Кол-во строк}';
     protected $description = 'Выводит ID и комментарии из Google Sheets';
-    private GoogleSheetService $sheetService;
 
-    public function __construct(GoogleSheetService $sheetService)
+    public function handle(GoogleSheetService $sheetService): int
     {
-        parent::__construct();
-        $this->sheetService = $sheetService;
-    }
+        $sheetService->setUp(SheetConfig::first());
 
-    public function handle(): int
-    {
         $count = (int) $this->option('count');
 
         if ($count <= 0) {
@@ -31,7 +27,7 @@ class PrintGoogleSheetRows extends Command
         try {
             $this->info('Получаем данные из Google Sheets...');
 
-            $rows = $this->sheetService->getRows($count);
+            $rows = $sheetService->getRows($count);
 
             if ($rows) {
                 $bar = $this->output->createProgressBar(count($rows));

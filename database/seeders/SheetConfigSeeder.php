@@ -13,9 +13,9 @@ class SheetConfigSeeder extends Seeder
     public function run(): void
     {
         SheetConfig::create([
-            'spreadsheet_id' => '1xiZgQwJ5q7mzy-c34DcD54U2QBqlbPitagA2FpBjtBk',
-            'sheet_name'     => 'Sheet1',
-            'url'            => 'https://docs.google.com/spreadsheets/d/1xiZgQwJ5q7mzy-c34DcD54U2QBqlbPitagA2FpBjtBk/edit',
+            'spreadsheet_id' => config('sheet-syncer.default_spreadsheet_id'),
+            'sheet_name'     => config('sheet-syncer.default_sheet_name'),
+            'url'            => config('sheet-syncer.default_url'),
         ]);
     }
 }

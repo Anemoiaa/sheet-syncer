@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\DTO\SheetRowDto;
+use App\Models\SheetConfig;
 use App\Models\TextRow;
 use App\Repositories\TextRowRepository;
 use Illuminate\Support\Facades\Log;
@@ -17,6 +18,8 @@ class GoogleSheetSyncer implements SheetSyncerInterface
 
     public function sync(): void
     {
+        $this->sheetService->setUp(SheetConfig::first());
+
         Log::info('Starting Google Sheet synchronization process.');
 
         $dbRows = $this->textRowRepository->allowed()->get();

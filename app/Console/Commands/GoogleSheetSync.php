@@ -23,18 +23,13 @@ class GoogleSheetSync extends Command
      */
     protected $description = 'Sync Google Sheet';
 
-    public function __construct(private readonly GoogleSheetSyncer $syncer)
-    {
-        parent::__construct();
-    }
-
     /**
      * Execute the console command.
      */
-    public function handle(): void
+    public function handle(GoogleSheetSyncer $syncer): void
     {
         try {
-            $this->syncer->sync();
+            $syncer->sync();
             Log::info('Google Sheet Synced: ' . now());
         } catch (Exception $exception) {
             Log::error('Error while syncing ' . $exception->getMessage());
