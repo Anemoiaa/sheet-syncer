@@ -47,5 +47,16 @@ services:
         volumes:
             - pgdata:/var/lib/postgresql/data
 
+    scheduler:
+        build:
+            context: .
+            dockerfile: .docker/php/Dockerfile
+        init: true
+        stop_signal: SIGTERM
+        entrypoint:
+            - supercronic
+            - -passthrough-logs
+            - /etc/supercronic/app
+
 volumes:
     pgdata:
